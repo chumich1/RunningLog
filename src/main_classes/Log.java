@@ -1,5 +1,6 @@
 package main_classes;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,12 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 
 
-public class Log {
+public class Log extends JFrame{
 	private Multimap<RunType, Run> runs = HashMultimap.create();
 	private String name;
 	private String fileName;
@@ -23,6 +26,12 @@ public class Log {
 		this.name = name;
 		fileName = name+".csv";
 		readFile(fileName);
+		Run[] a = new Run[runs.size()];
+		GraphGUI myGUI = new GraphGUI(this.getAllRuns().toArray(a));
+		this.add(myGUI);
+		this.setSize(new Dimension(1100, 800));
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
 		
 	}
 	
@@ -70,10 +79,15 @@ public class Log {
 		return runs.get(RunType.EASY);
 	}
 	
+	public Collection<Run> getAllRuns(){
+		return runs.values();
+	}
+	
+	
 	public static void main(String[] args) {
 		Log myLog = new Log("testLog");
-		System.out.println(myLog.getWorkouts());
-		System.out.println(myLog.getEasyRuns());
+		System.out.println(myLog.getAllRuns());
+		System.out.println(myLog.getAllRuns());
 
 		
 	}
